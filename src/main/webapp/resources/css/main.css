@@ -1,0 +1,32 @@
+html, body, #main {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    position:relative;
+}
+
+#header, #map{
+    position:absolute;
+}
+
+#header {
+    height:100px;
+    width:100%;
+    background: #111;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+#map {
+    top:100px;
+    bottom:0px;
+    width:100%;
+}
+
+.btn-default{
+    height:50px;
+    width:200px;
+    font-size: 25px !important;
+}
