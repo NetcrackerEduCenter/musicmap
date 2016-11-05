@@ -16,7 +16,6 @@ public class SpringController {
     @RequestMapping(value = "", method = RequestMethod.GET)
 
     public String getPersons(Model model) {
-
         return "start";
     }
 }
