@@ -9,12 +9,13 @@
     <mvc:annotation-driven />
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
-
+    <!--Добавляем поддержку jsp сервлетов (через String)-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!--Подключаем настройку Hibernate-->
     <import resource="database-config.xml"/>
 
 </beans>

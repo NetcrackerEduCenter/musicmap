@@ -10,13 +10,17 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--Указываем, что настройки лежат в app.properties-->
     <context:property-placeholder location="/WEB-INF/app.properties"/>
+
+    <!--Доступ к нашей БД-->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" >
         <property name="driverClassName" value="${database.driver}" />
         <property name="url" value="${database.url}" />
         <property name="username" value="${database.root}" />
         <property name="password" value="${database.password}" />
     </bean>
+    <!--Настройка SessionFactory-->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="hibernateProperties">
@@ -28,6 +32,7 @@
         </property>
         <property name="packagesToScan" value="com.akvone.entity"></property>
     </bean>
+    <!---->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>

@@ -4,6 +4,7 @@ package com.akvone.controller;
 //import com.akvone.service.implementation.BankServiceImpl;
 import com.akvone.entity.StartInfo;
 import com.akvone.service.StartInfoService;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.LocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,10 +42,11 @@ public class SpringController {
 ////        bankService.addBank(new Bank());
 //    }
 
-    @RequestMapping(value="add_start_info", method = RequestMethod.GET)
+    @RequestMapping(value="add_start_info", method = RequestMethod.POST)
+    @ResponseBody
     public void addPerson(ModelMap model) {
         boolean flag = startInfoService.addStartInfo(new StartInfo());
-        model.addAttribute(new StartInfo());
+        model.addAttribute("message","sussess");
         System.out.println("CHECK THIS");
     }
 
