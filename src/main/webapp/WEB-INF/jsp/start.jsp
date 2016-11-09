@@ -4,6 +4,10 @@
     <title>$Title$</title>
     <script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
     <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
 
     <link href="resources/css/main.css" rel="stylesheet">
     <link href="resources/css/bootstrap.min.css" rel="stylesheet">
