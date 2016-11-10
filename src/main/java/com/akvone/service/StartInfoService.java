@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StartInfoService implements IStartInfoService {
     @Autowired
-    private IStartInfoDAO initialInformationDAO;
+    private IStartInfoDAO startInfoDAO;
 
     @Override
     public boolean addStartInfo(StartInfo startInfo) {
-        initialInformationDAO.addStartInfo(startInfo);
+        startInfoDAO.addStartInfo(startInfo);
         return true;
     }
 }

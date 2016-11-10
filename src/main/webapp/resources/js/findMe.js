@@ -24,59 +24,31 @@ function init() {
             } else {
                 document.getElementById('coords').value = 'low accuracy';
             }
-            console.log(231);
-            sendBrowserInformation(result);
+            sendBrowserInformation(result.geoObjects);
         }, function (e){
             console.log("Произошла ошибка при определении местоположения");
             sendBrowserInformation(1)
         });
     });
 
-    var sendBrowserInformation = function(coords){
-        var browserInformation;
-        // var errorType, latitude, longtitude, accuracy, browserName,
-        //     operationSystem, screenHeight, screenWidth;
-        if (coords==1){
+    var sendBrowserInformation = function(geoObjects) {
+        console.log(geoObjects);
+        var browserInformation = {};
+        if (geoObjects == 1) {
             browserInformation.errorType = 1;
-        } else{
+        } else {
             browserInformation.errorType = 0;
-            browserInformation.latitude = coords.geoObjects.position[0];
-            browserInformation.longtitude = coords.geoObjects.position[1];
-            browserInformation.accuracy = coords.geoObjects.accuracy;
+            browserInformation.latitude = geoObjects.position[0];
+            browserInformation.longtitude = geoObjects.position[1];
+            browserInformation.accuracy = geoObjects.accuracy;
         }
         browserInformation.appVersion = navigator.appVersion;
         browserInformation.screenHeight = screen.height;
         browserInformation.screenWidth = screen.width;
         console.log(browserInformation);
-        // $.post("/add_start_info",
-        //     browserInformation,
-        //     function(data, status){
-        //         alert("Data: " + data + "\nStatus: " + status);
-        //     });
+
+        $.post("/add_start_info",
+            browserInformation,
+            console.log("Отправлено"));
     }
-
-
-
-
-
-    // var button = document.getElementById("findMe");
-
-
-    // button.addEventListener("mousedown", function (event) {
-    //     if (event.which == 1) {
-    //         geolocation.get({
-    //             provider: 'auto',
-    //             mapStateAutoApply: false,
-    //             autoReverseGeocode: true
-    //         }).then(function (result) {
-    //             result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
-    //             if (result.geoObjects.accuracy < 2000) {
-    //                 myMap.geoObjects.add(result.geoObjects);
-    //                 document.getElementById('coords').value = result.geoObjects.get(0).geometry.getCoordinates();
-    //             } else {
-    //                 document.getElementById('coords').value = 'low accuracy';
-    //             }
-    //         });
-    //     }
-    // });
 }
