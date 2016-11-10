@@ -33,7 +33,7 @@
 </div>
 </body>
 
-<script src="resources/js/findMe.js" type="text/javascript"></script>
-<script src="resources/js/getAudio.js" type="text/javascript"></script>
-<script src="resources/js/send.js" type="text/javascript"></script>
+<script src="resources/js/start.js" type="text/javascript"></script>
+<%--<script src="resources/js/getAudio.js" type="text/javascript"></script>--%>
+<%--<script src="resources/js/send.js" type="text/javascript"></script>--%>
 </html>

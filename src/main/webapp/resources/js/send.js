@@ -1,14 +1,4 @@
-// $("#findMe").click(function(){
-//     $.post("/add_start_info",
-//         {
-//             name: "Donald Duck",
-//             city: "Duckburg"
-//         },
-//         function(data, status){
-//             alert("Data: " + data + "\nStatus: " + status);
-//         });
-// });
-
+//
 // var button = document.getElementById("send");
 // button.addEventListener("mousedown", function (event) {
 //     if (event.which == 1) {
