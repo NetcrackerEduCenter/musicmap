@@ -47,7 +47,7 @@ function init() {
         browserInformation.screenWidth = screen.width;
         console.log(browserInformation);
 
-        $.post("/add_start_info",
+        $.post("/add_user",
             browserInformation,
             console.log("Отправлено"));
     }

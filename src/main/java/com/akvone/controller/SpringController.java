@@ -2,14 +2,16 @@ package com.akvone.controller;
 
 //import com.akvone.entity.Bank;
 //import com.akvone.service.implementation.BankServiceImpl;
-import com.akvone.entity.StartInfo;
-import com.akvone.service.StartInfoService;
+import com.akvone.entity.User;
+import com.akvone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Random;
 
 /**
  * Created by Kirill on 04.11.2016.
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class SpringController {
     @Autowired
-    private StartInfoService startInfoService;
+    private UserService userService;
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String getPersons(Model model) {
@@ -27,12 +29,15 @@ public class SpringController {
     }
 
 
-    @RequestMapping(value="add_start_info", method = RequestMethod.POST)
+    @RequestMapping(value="add_user", method = RequestMethod.POST)
     @ResponseBody
     public void addBrowserInfo(ModelMap model){
-        startInfoService.addStartInfo(new StartInfo());
-        model.addAttribute("message","success");
-        System.out.println("CHECK THIS");
+        User user = new User();
+        user.setVkId(new Random().nextLong());
+        user.setId(new Random().nextLong());
+        userService.addUser(user);
+//        model.addAttribute("message","success");
+        System.out.println("User added");
     }
 
 }
