@@ -48,7 +48,7 @@ function init() {
                     fillRule: "nonZero"
                 },
                 properties: {
-                    balloonContent: "Многоугольник"
+                    balloonContent: locations[i].name
                 }
             }, {
                 fillColor: locations[i].color,
