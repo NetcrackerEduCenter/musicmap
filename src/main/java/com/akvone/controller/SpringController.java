@@ -35,7 +35,7 @@ public class SpringController {
         User user = new User();
         user.setVkId(new Random().nextLong());
         user.setId(new Random().nextLong());
-        userService.addUser(user);
+        userService.add(user);
 //        model.addAttribute("message","success");
         System.out.println("User added");
     }

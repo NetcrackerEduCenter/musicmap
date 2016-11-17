@@ -5,19 +5,20 @@ import javax.persistence.*;
 //import java.util.Set;
 
 /**
- * Created by Kirill on 10.11.2016.
+ * Created by nikitafedorovv on 15/11/2016.
  */
+
 @Entity
-@Table(name = "USERS", schema = "musicDB", catalog = "")
-public class User {
+@Table(name = "SONGS", schema = "musicDB", catalog = "")
+public class Song {
 
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Basic
-    @Column(name = "vk_id", nullable = false, unique = true)
-    private Long vkId;
+    @ManyToOne
+    @JoinColumn(name = "singer_id", referencedColumnName = "id")
+    private Singer singer;
 
 //    @OneToMany(mappedBy = "user")
 //    private Set<HistoryRecord> historyRecords = new HashSet<HistoryRecord>();
@@ -30,12 +31,12 @@ public class User {
         this.id = id;
     }
 
-    public Long getVkId() {
-        return vkId;
+    public Singer getSinger() {
+        return singer;
     }
 
-    public void setVkId(Long vkId) {
-        this.vkId = vkId;
+    public void setSinger(Singer singer) {
+        this.singer = singer;
     }
 
 //    public Set<HistoryRecord> getHistoryRecords() {
@@ -49,12 +50,12 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Song)) return false;
 
-        User that = (User) o;
+        Song that = (Song) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (vkId != null ? !vkId.equals(that.vkId) : that.vkId != null) return false;
+        if (singer != null ? !singer.equals(that.singer) : that.singer != null) return false;
 
         return true;
     }
@@ -62,7 +63,7 @@ public class User {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 3517 * result + (vkId != null ? vkId.hashCode() : 0);
+        result = 3517 * result + (singer != null ? singer.hashCode() : 0);
         return result;
     }
 }

@@ -1,23 +1,46 @@
 package com.akvone.dao;
 
-import javax.transaction.Transactional;
-
 import com.akvone.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.Set;
 
-@Transactional
+//@javax.transaction.Transactional
 @Repository
-public class UserDAO implements IUserDAO {
+public class UserDAO extends HibernateDaoSupport implements IUserDAO {
 
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Override
-    public boolean addUser(User user) {
-        hibernateTemplate.save(user);
-        return false;
+    @Transactional
+    public boolean add(User user) {
+        if (getHibernateTemplate().find("select * from User user where user.vkId = " + user.getVkId()).isEmpty()) {
+            //по поводу этого запроса неуверен
+            getHibernateTemplate().save(user);
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    @Transactional
+    public void update(User user) {
+        getHibernateTemplate().update(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User findById(Long id) {
+        return getHibernateTemplate().get(User.class, id);
+    }
+
+    @Transactional
+    public void delete(User user) {
+        getHibernateTemplate().delete(user);
+    }
+
+    @Transactional(readOnly = true)
+    public Set<User> findAll() {
+        return new HashSet(getHibernateTemplate().find("from com.akvone.entity.User"));
+    }
+
 }

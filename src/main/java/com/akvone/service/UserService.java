@@ -14,8 +14,7 @@ public class UserService implements IUserService{
     private IUserDAO userDAO;
 
     @Override
-    public boolean addUser(User user) {
-        userDAO.addUser(user);
-        return true;
+    public boolean add(User user) {
+        return userDAO.add(user);
     }
 }
