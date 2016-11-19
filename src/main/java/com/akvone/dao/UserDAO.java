@@ -1,46 +1,21 @@
 package com.akvone.dao;
 
 import com.akvone.entity.User;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
 import java.util.Set;
 
-//@javax.transaction.Transactional
-@Repository
-public class UserDAO extends HibernateDaoSupport implements IUserDAO {
+/**
+ * Created by Kirill on 10.11.2016.
+ */
 
-    @Transactional
-    public boolean add(User user) {
-        if (getHibernateTemplate().find("select * from User user where user.vkId = " + user.getVkId()).isEmpty()) {
-            //по поводу этого запроса неуверен
-            getHibernateTemplate().save(user);
-            return true;
-        } else {
-            return false;
-        }
-    }
+public interface UserDAO {
 
-    @Transactional
-    public void update(User user) {
-        getHibernateTemplate().update(user);
-    }
+    boolean add(User user);
 
-    @Transactional(readOnly = true)
-    public User findById(Long id) {
-        return getHibernateTemplate().get(User.class, id);
-    }
+    void update(User user);
 
-    @Transactional
-    public void delete(User user) {
-        getHibernateTemplate().delete(user);
-    }
+    User findById(Long id);
 
-    @Transactional(readOnly = true)
-    public Set<User> findAll() {
-        return new HashSet(getHibernateTemplate().find("from com.akvone.entity.User"));
-    }
+    void delete(User user);
 
+    Set<User> findAll();
 }

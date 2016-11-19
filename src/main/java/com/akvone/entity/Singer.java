@@ -1,6 +1,7 @@
 package com.akvone.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -9,7 +10,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "SINGERS", schema = "musicDB", catalog = "")
-public class Singer {
+public class Singer implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -21,9 +22,6 @@ public class Singer {
 
     @ManyToMany(mappedBy = "singers")
     private Set<Style> styles = new HashSet<Style>();
-
-//    @OneToMany(mappedBy = "singer")
-//    private Set<Song> songs = new HashSet<Song>();
 
     public Long getId() {
         return id;
@@ -49,14 +47,6 @@ public class Singer {
         this.styles = styles;
     }
 
-//    public void setSongs(Set<Song> songs) {
-//        this.songs = songs;
-//    }
-//
-//    public Set<Song> getSongs() {
-//        return songs;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,7 +57,6 @@ public class Singer {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (styles != null ? !styles.equals(that.styles) : that.styles != null) return false;
-        //if (songs != null ? !songs.equals(that.songs) : that.songs != null) return false;
 
         return true;
     }
@@ -77,7 +66,6 @@ public class Singer {
         int result = id != null ? id.hashCode() : 0;
         result = 3517 * result + (name != null ? name.hashCode() : 0);
         result = 3517 * result + (styles != null ? styles.hashCode() : 0);
-        //result = 3517 * result + (songs != null ? songs.hashCode() : 0);
         return result;
     }
 }

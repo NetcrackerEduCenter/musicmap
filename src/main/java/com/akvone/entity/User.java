@@ -1,15 +1,15 @@
 package com.akvone.entity;
 
 import javax.persistence.*;
-//import java.util.HashSet;
-//import java.util.Set;
+import java.io.Serializable;
 
 /**
- * Created by Kirill on 10.11.2016.
+ * Created by nikitafedorovv on 18/11/2016.
  */
+
 @Entity
 @Table(name = "USERS", schema = "musicDB", catalog = "")
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -19,8 +19,9 @@ public class User {
     @Column(name = "vk_id", nullable = false, unique = true)
     private Long vkId;
 
-//    @OneToMany(mappedBy = "user")
-//    private Set<HistoryRecord> historyRecords = new HashSet<HistoryRecord>();
+    @Basic
+    @Column(name = "coordinates")
+    private String coordinates;
 
     public Long getId() {
         return id;
@@ -38,13 +39,13 @@ public class User {
         this.vkId = vkId;
     }
 
-//    public Set<HistoryRecord> getHistoryRecords() {
-//        return historyRecords;
-//    }
-//
-//    public void setHistoryRecords(Set<HistoryRecord> historyRecords) {
-//        this.historyRecords = historyRecords;
-//    }
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,50 +1,21 @@
 package com.akvone.dao;
 
+import com.akvone.entity.Song;
+import java.util.Set;
+
 /**
  * Created by nikitafedorovv on 15/11/2016.
  */
 
-import com.akvone.entity.Song;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+public interface SongDAO {
 
-import java.util.HashSet;
-import java.util.Set;
+    boolean add(Song song);
 
+    void update(Song song);
 
-//@javax.transaction.Transactional
-@Repository
-public class SongDAO extends HibernateDaoSupport implements ISongDAO {
+    Song findById(Long id);
 
-    @Transactional
-    public boolean add(Song song) {
-        if (getHibernateTemplate().find("select * from Song song where song.id = " + song.getId()).isEmpty()) {
-            getHibernateTemplate().save(song);
-            return true;
-        } else {
-            return false;
-        }
-    }
+    void delete(Song song);
 
-    @Transactional
-    public void update(Song song) {
-        getHibernateTemplate().update(song);
-    }
-
-    @Transactional(readOnly = true)
-    public Song findById(Long id) {
-        return getHibernateTemplate().get(Song.class, id);
-    }
-
-    @Transactional
-    public void delete(Song song) {
-        getHibernateTemplate().delete(song);
-    }
-
-    @Transactional(readOnly = true)
-    public Set<Song> findAll() {
-        return new HashSet(getHibernateTemplate().find("FROM com.akvone.entity.Song"));
-    }
-
+    Set<Song> findAll();
 }

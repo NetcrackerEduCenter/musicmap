@@ -4,30 +4,30 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by nikitafedorovv on 15/11/2016.
+ * Created by nikitafedorovv on 18/11/2016.
  */
 
-@Entity
-@Table(name = "HISTORY", schema = "musicDB", catalog = "")
-@IdClass(HistoryRecordPK.class)
-public class HistoryRecord implements Serializable {
+public class HistoryRecordPK implements Serializable {
 
-    HistoryRecord() {}
-
-    HistoryRecord(HistoryRecordPK historyRecordPK) {
-        song = historyRecordPK.getSong();
-        user = historyRecordPK.getUser();
-        location = historyRecordPK.getLocation();
-    }
-
-    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @Id
+    @ManyToOne
+    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;
 
-    @Id
+    @ManyToOne
+    @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false)
     private Song song;
+
+    HistoryRecordPK() {}
+
+    HistoryRecordPK(User user, Location location, Song song) {
+        this.user = user;
+        this.song = song;
+        this.location = location;
+    }
 
     public User getUser() {
         return user;
@@ -53,13 +53,12 @@ public class HistoryRecord implements Serializable {
         this.song = song;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || !(o instanceof Song)) return false;
 
-        HistoryRecord that = (HistoryRecord) o;
+        HistoryRecordPK that = (HistoryRecordPK) o;
 
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (location != null ? !location.equals(that.location) : that.location != null) return false;
@@ -75,4 +74,5 @@ public class HistoryRecord implements Serializable {
         result = 3517 * result + (song != null ? song.hashCode() : 0);
         return result;
     }
+
 }

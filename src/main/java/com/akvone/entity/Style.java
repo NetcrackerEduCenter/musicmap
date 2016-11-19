@@ -1,6 +1,7 @@
 package com.akvone.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -9,7 +10,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "STYLES", schema = "musicDB", catalog = "")
-public class Style {
+public class Style implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -20,7 +21,7 @@ public class Style {
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "singers_styles",
+    @JoinTable(name = "SINGERS_STYLES",
             joinColumns = {@JoinColumn(name = "style_id")},
             inverseJoinColumns = {@JoinColumn(name = "singer_id")})
     private Set<Singer> singers = new HashSet<Singer>();
