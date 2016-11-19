@@ -15,8 +15,7 @@ $("#getAudio").click(function () {
                 {owner_id: response.session.mid},
                 function (result) {
                     result.response.shift();
-                    var str = JSON.stringify(result.response, ["aid", "artist", "genre"]);
-                    userInformation.audios = str;
+                    userInformation.audios = result.response;
                 });
             VK.Auth.revokeGrants();
         }
@@ -72,25 +71,27 @@ function init() {
 
             result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
             if (result.geoObjects.accuracy < 2000) {
-                userInformation.coords = result.geoObjects.get(0).geometry.getCoordinates();
+                var coords = result.geoObjects.get(0).geometry.getCoordinates();
+                userInformation.x = coords[0];
+                userInformation.y = coords[1];
                 myMap.geoObjects.add(result.geoObjects);
                 //Определяем id района по координатам юзера
-                userInformation.locationId = undefined;
+                userInformation.locationID = undefined;
                 for (i = 0; i < polygons.length; i++) {
                     for (j = 0; j < polygons[i].length; j++) {
-                        if (polygons[i][j].geometry.contains(userInformation.coords)) {
-                            userInformation.locationId = i;
+                        if (polygons[i][j].geometry.contains(coords)) {
+                            userInformation.locationID = locations[i].id;
                             break;
                             break;
                         }
                     }
                 }
             } else {
-                userInformation.coords = "low accuracy";
+                userInformation.x = "low accuracy";
             }
         }, function (e) {
             console.log("Произошла ошибка при определении местоположения");
-            userInformation.coords = undefined;
+            userInformation.x = undefined;
         });
 
     });
@@ -101,7 +102,7 @@ function init() {
 $("#send").click(function () {
     console.log("Объект для отправки");
     console.log(userInformation);
-    if (!userInformation.coords) {
+    if (!userInformation.x) {
         alert("Ошибка. Не определено местоположение.");
     }
     else if (coords == "low accuracy") {
@@ -110,12 +111,19 @@ $("#send").click(function () {
     else if (!userInformation.audios) {
         alert("Ошибка. Не получен список аудизаписей.");
     }
-    else if (!userInformation.locationId) {
+    else if (!userInformation.locationID) {
         alert("Ошибка. Не определен район СПБ.")
     }
     else {
-        $.post("/add_user",
-            userInformation,
-            console.log("Отправлено"));
+        $.ajax({
+            url:"/add_user",
+            type:"POST",
+            headers: {
+                "Accept" : "application/json; charset=utf-8"
+            },
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify(userInformation),
+            dataType:"json"
+        })
     }
 })
