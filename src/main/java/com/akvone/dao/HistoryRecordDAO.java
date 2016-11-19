@@ -14,4 +14,8 @@ public interface HistoryRecordDAO {
     void delete(HistoryRecord historyRecord);
 
     Set<HistoryRecord> findAll();
+
+    Long getUserCountByLocationId(Long locationId);
+
+    Set<String> getTopStylesByLocation(Long locationId);
 }

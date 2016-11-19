@@ -10,7 +10,7 @@ $("#getAudio").click(function () {
     VK.Auth.login(function (response) {
         if (response.session) {
             /* Пользователь успешно авторизовался */
-            userInformation.userID = response.session.mid;
+            userInformation.vkId = response.session.mid;
             VK.Api.call('audio.get',
                 {owner_id: response.session.mid},
                 function (result) {
