@@ -40,13 +40,14 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
 
     @Transactional (readOnly = true)
     public Long getUserCountByLocationId(Long locationId){
-        return ((BigDecimal) hibernateTemplate.find("select count (user_id)from History where location_id = ?", locationId)).longValue();
+        return ((BigDecimal) hibernateTemplate.find("select count (User)from HistoryRecord where location.id = ?", locationId)).longValue();
     }
 
+    //not sure in quality
     @Transactional
     public Set<String> getTopStylesByLocation(Long locationId) {
-        return new HashSet(hibernateTemplate.find("select st.name from HISTORY h " +
-                "left join SONGS s on s.id=h.song_id " +
+        return new HashSet(hibernateTemplate.find("select h from HistoryRecord h " +
+                "left join h.song " +
                 "left join SINGERS_STYLES ss on ss.singer_id=s.singer_id " +
                 "left join STYLES st on ss.style_id=st.id " +
                 "where h.location_id = "+locationId+" " +
