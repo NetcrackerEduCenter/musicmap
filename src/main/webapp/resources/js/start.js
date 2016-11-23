@@ -1,10 +1,13 @@
 ymaps.ready(init);
 
+var browserSession = {};
 var userInformation = {};
+var polygons = [];
 
 VK.init({
     apiId: 5697583
 });
+
 
 $("#getAudio").click(function () {
     VK.Auth.login(function (response) {
@@ -12,12 +15,13 @@ $("#getAudio").click(function () {
             /* Пользователь успешно авторизовался */
             userInformation.vkId = response.session.mid;
             VK.Api.call('audio.get',
-                {owner_id: response.session.mid},
+                {owner_id: userInformation.userID},
                 function (result) {
                     result.response.shift();
                     userInformation.audios = result.response;
+                    VK.Auth.revokeGrants();
+                    console.log(userInformation);
                 });
-            VK.Auth.revokeGrants();
         }
         else {
             /* Пользователь нажал кнопку Отмена в окне авторизации */
@@ -31,10 +35,13 @@ function init() {
             {
                 center: [30.315868, 59.939095],
                 zoom: 11,
-                controls: []
+                controls: ['zoomControl']
             });
 
-    var polygons = [];
+
+    myMap.events.add('click', function (e) {
+        showRegionInformation(e.get('coords'));
+    });
 
     //Формируем полигоны из массива в location.js
     for (i = 0; i < locations.length; i++) {
@@ -57,6 +64,10 @@ function init() {
                 strokeStyle: 'shortdash'
             });
             myMap.geoObjects.add(polygons[i][j]);
+            //Добавляем функцию на клик по полигону
+            polygons[i][j].events.add('click', function (e) {
+                showRegionInformation(e.get('coords'));
+            });
         }
     }
 
@@ -81,7 +92,6 @@ function init() {
                     for (j = 0; j < polygons[i].length; j++) {
                         if (polygons[i][j].geometry.contains(coords)) {
                             userInformation.locationID = locations[i].id;
-                            break;
                             break;
                         }
                     }
@@ -122,7 +132,7 @@ $("#send").click(function () {
                 "Accept" : "application/json; charset=utf-8"
             },
             contentType:"application/json; charset=utf-8",
-            data: JSON.stringify(userInformation),
+            data: userInformation,
             dataType:"json"
         })
     }
