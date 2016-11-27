@@ -12,11 +12,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserDAO userDAO;
 
     @Override
-    public boolean add(User user) {
-        return userDAO.add(user);
+    public User add(long vkId, float x, float y) {
+        User user;
+        if (userDAO.exists(vkId)){
+            user = userDAO.getByVkId(vkId);
+        } else {
+            user = new User();
+            user.setVkId(vkId);
+        }
+        user.setX(x);
+        user.setY(y);
+        userDAO.save(user);
+        return userDAO.getByVkId(vkId);
     }
 }

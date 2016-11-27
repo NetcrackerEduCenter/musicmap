@@ -12,18 +12,18 @@ import java.io.Serializable;
 @IdClass(HistoryRecordPK.class)
 public class HistoryRecord implements Serializable {
 
-    HistoryRecord() {}
+    public HistoryRecord() {}
 
-    HistoryRecord(HistoryRecordPK historyRecordPK) {
+    public HistoryRecord(HistoryRecordPK historyRecordPK) {
         song = historyRecordPK.getSong();
         user = historyRecordPK.getUser();
-        location = historyRecordPK.getLocation();
     }
 
     @Id
     private User user;
 
-    @Id
+    @ManyToOne
+    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;
 
     @Id

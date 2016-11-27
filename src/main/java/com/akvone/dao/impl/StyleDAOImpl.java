@@ -6,46 +6,53 @@ package com.akvone.dao.impl;
 
 import com.akvone.dao.*;
 import com.akvone.entity.Style;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.HashSet;
-import java.util.Set;
 
 @Repository
 public class StyleDAOImpl implements StyleDAO {
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
+    private SessionFactory sessionFactory;
 
-    @Transactional
-    public boolean add(Style style) {
-        if (hibernateTemplate.find("from Style style where style.name = " + style.getName()).isEmpty()) {
-            hibernateTemplate.save(style);
-            return true;
-        } else {
-            return false;
+    @Override
+    public Style getByName(String name) {
+        Style style;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria styleCriteria = session.createCriteria(Style.class);
+            styleCriteria.add(Restrictions.eq("name", name));
+            style = (Style) styleCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
         }
+        return style;
     }
 
-    @Transactional
-    public void update(Style style) {
-        hibernateTemplate.update(style);
-    }
-
-    @Transactional(readOnly = true)
-    public Style findById(Long id) {
-        return hibernateTemplate.get(Style.class, id);
-    }
-
-    @Transactional
-    public void delete(Style style) {
-        hibernateTemplate.delete(style);
-    }
-
-    @Transactional(readOnly = true)
-    public Set<Style> findAll() {
-        return new HashSet(hibernateTemplate.find("FROM Style"));
+    @Override
+    public Style getById(long id) {
+        Style style;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria styleCriteria = session.createCriteria(Style.class);
+            styleCriteria.add(Restrictions.eq("id", id));
+            style = (Style) styleCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return style;
     }
 }

@@ -1,7 +1,6 @@
 package com.akvone.dao;
 
 import com.akvone.entity.Song;
-import java.util.Set;
 
 /**
  * Created by nikitafedorovv on 15/11/2016.
@@ -9,13 +8,10 @@ import java.util.Set;
 
 public interface SongDAO {
 
-    boolean add(Song song);
+    boolean exists(long vkId);
 
-    void update(Song song);
+    void save(Song song);
 
-    Song findById(Long id);
+    Song getByVkId(long vkId);
 
-    void delete(Song song);
-
-    Set<Song> findAll();
 }

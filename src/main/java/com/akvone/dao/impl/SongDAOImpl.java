@@ -5,49 +5,62 @@ package com.akvone.dao.impl;
  */
 
 import com.akvone.entity.Song;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.akvone.dao.*;
-import java.util.HashSet;
-import java.util.Set;
-
 
 @Repository
 public class SongDAOImpl implements SongDAO {
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
+    private SessionFactory sessionFactory;
 
     @Transactional
-    public boolean add(Song song) {
-        if (hibernateTemplate.find("from Song song where song.id = " + song.getId()).isEmpty()) {
-            hibernateTemplate.save(song);
-            return true;
-        } else {
+    public void save(Song song) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(song);
+    }
+
+    @Override
+    public boolean exists(long vkId) {
+        boolean exists = false;
+        try {
+            Session session = sessionFactory.openSession();
+            Criteria songCriteria = session.createCriteria(Song.class);
+            songCriteria.add(Restrictions.eq("vk_id", vkId));
+            if (songCriteria.uniqueResult() != null)
+                exists = true;
+            else
+                exists = false;
+            session.close();
+        } catch (HibernateException ex) {
             return false;
         }
+        return exists;
     }
 
-    @Transactional
-    public void update(Song song) {
-        hibernateTemplate.update(song);
-    }
-
-    @Transactional(readOnly = true)
-    public Song findById(Long id) {
-        return hibernateTemplate.get(Song.class, id);
-    }
-
-    @Transactional
-    public void delete(Song song) {
-        hibernateTemplate.delete(song);
-    }
-
-    @Transactional(readOnly = true)
-    public Set<Song> findAll() {
-        return new HashSet(hibernateTemplate.find("FROM Song"));
+    @Override
+    public Song getByVkId(long vkId) {
+        Song song;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria songCriteria = session.createCriteria(Song.class);
+            songCriteria.add(Restrictions.eq("vk_id", vkId));
+            song = (Song) songCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return song;
     }
 
 }

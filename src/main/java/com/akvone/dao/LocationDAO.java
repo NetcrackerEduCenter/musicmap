@@ -9,13 +9,8 @@ import java.util.Set;
 
 public interface LocationDAO {
 
-    boolean add(Location location);
+    Location getById(long id);
 
-    void update(Location location);
+    Location getByName(String name);
 
-    Location findById(Long id);
-
-    void delete(Location location);
-
-    Set<Location> findAll();
 }

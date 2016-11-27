@@ -1,7 +1,6 @@
 package com.akvone.dao;
 
 import com.akvone.entity.Style;
-import java.util.Set;
 
 /**
  * Created by nikitafedorovv on 15/11/2016.
@@ -9,13 +8,8 @@ import java.util.Set;
 
 public interface StyleDAO {
 
-    boolean add(Style style);
+    Style getByName(String name);
 
-    void update(Style style);
+    Style getById(long id);
 
-    Style findById(Long id);
-
-    void delete(Style style);
-
-    Set<Style> findAll();
 }

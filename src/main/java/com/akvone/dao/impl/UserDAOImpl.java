@@ -1,48 +1,62 @@
 package com.akvone.dao.impl;
 
 import com.akvone.entity.User;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.akvone.dao.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
+    private SessionFactory sessionFactory;
 
+    @Override
     @Transactional
-    public boolean add(User user) {
-        if (hibernateTemplate.find("FROM User user WHERE user.vkId = " + user.getVkId()).isEmpty()) {
-            hibernateTemplate.save(user);
-            return true;
-        } else {
+    public void save(User user) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(user);
+    }
+
+    @Override
+    public boolean exists(long vkId) {
+        boolean exists = false;
+        try {
+            Session session = sessionFactory.openSession();
+            Criteria userCriteria = session.createCriteria(User.class);
+            userCriteria.add(Restrictions.eq("vkId", vkId));
+            if (userCriteria.uniqueResult() != null)
+                exists = true;
+            else
+                exists = false;
+            session.close();
+        } catch (HibernateException ex) {
             return false;
         }
+        return exists;
     }
 
-    @Transactional
-    public void update(User user) {
-        hibernateTemplate.update(user);
+    @Override
+    public User getByVkId(long vkId) {
+        User user;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria userCriteria = session.createCriteria(User.class);
+            userCriteria.add(Restrictions.eq("vkId", vkId));
+            user = (User) userCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return user;
     }
-
-    @Transactional(readOnly = true)
-    public User findById(Long id) {
-        return hibernateTemplate.get(User.class, id);
-    }
-
-    @Transactional
-    public void delete(User user) {
-        hibernateTemplate.delete(user);
-    }
-
-    @Transactional(readOnly = true)
-    public Set<User> findAll() {
-        return new HashSet(hibernateTemplate.find("from User"));
-    }
-
 }

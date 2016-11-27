@@ -2,7 +2,6 @@ package com.akvone.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
 
 /**
  * Created by nikitafedorovv on 15/11/2016.
@@ -20,9 +19,6 @@ public class Singer implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "singers")
-    private Set<Style> styles = new HashSet<Style>();
-
     public Long getId() {
         return id;
     }
@@ -39,14 +35,6 @@ public class Singer implements Serializable {
         this.name = name;
     }
 
-    public Set<Style> getStyles() {
-        return styles;
-    }
-
-    public void setStyles(Set<Style> styles) {
-        this.styles = styles;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,7 +44,6 @@ public class Singer implements Serializable {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (styles != null ? !styles.equals(that.styles) : that.styles != null) return false;
 
         return true;
     }
@@ -65,7 +52,6 @@ public class Singer implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 3517 * result + (name != null ? name.hashCode() : 0);
-        result = 3517 * result + (styles != null ? styles.hashCode() : 0);
         return result;
     }
 }

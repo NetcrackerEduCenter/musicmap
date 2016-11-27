@@ -5,48 +5,61 @@ package com.akvone.dao.impl;
  */
 
 import com.akvone.entity.Singer;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.akvone.dao.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Repository
 public class SingerDAOImpl implements SingerDAO {
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
+    private SessionFactory sessionFactory;
 
     @Transactional
-    public boolean add(Singer singer) {
-        if (hibernateTemplate.find("from Singer singer where singer.name = " + singer.getName()).isEmpty()) {
-            hibernateTemplate.save(singer);
-            return true;
-        } else {
+    public void save(Singer singer) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(singer);
+    }
+
+    @Override
+    public boolean exists(String name) {
+        boolean exists = false;
+        try {
+            Session session = sessionFactory.openSession();
+            Criteria styleCriteria = session.createCriteria(Singer.class);
+            styleCriteria.add(Restrictions.eq("name", name));
+            if (styleCriteria.uniqueResult() != null)
+                exists = true;
+            else
+                exists = false;
+            session.close();
+        } catch (HibernateException ex) {
             return false;
         }
+        return exists;
     }
 
-    @Transactional
-    public void update(Singer singer) {
-        hibernateTemplate.update(singer);
+    @Override
+    public Singer getByName(String name) {
+        Singer singer;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria singerCriteria = session.createCriteria(Singer.class);
+            singerCriteria.add(Restrictions.eq("name", name));
+            singer = (Singer) singerCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return singer;
     }
-
-    @Transactional(readOnly = true)
-    public Singer findById(Long id) {
-        return hibernateTemplate.get(Singer.class, id);
-    }
-
-    @Transactional
-    public void delete(Singer singer) {
-        hibernateTemplate.delete(singer);
-    }
-
-    @Transactional(readOnly = true)
-    public Set<Singer> findAll() {
-        return new HashSet(hibernateTemplate.find("FROM Singer"));
-    }
-
 }

@@ -20,8 +20,12 @@ public class User implements Serializable {
     private Long vkId;
 
     @Basic
-    @Column(name = "coordinates")
-    private String coordinates;
+    @Column(name = "xcoord")
+    private float x;
+
+    @Basic
+    @Column(name = "ycoord")
+    private float y;
 
     public Long getId() {
         return id;
@@ -39,12 +43,20 @@ public class User implements Serializable {
         this.vkId = vkId;
     }
 
-    public String getCoordinates() {
-        return coordinates;
+    public float getX() {
+        return x;
     }
 
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
+    public float getY() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     @Override

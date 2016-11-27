@@ -9,13 +9,10 @@ import java.util.Set;
 
 public interface UserDAO {
 
-    boolean add(User user);
+    void save(User user);
 
-    void update(User user);
+    boolean exists(long vkId);
 
-    User findById(Long id);
+    User getByVkId(long vkId);
 
-    void delete(User user);
-
-    Set<User> findAll();
 }

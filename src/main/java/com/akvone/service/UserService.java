@@ -7,5 +7,7 @@ import com.akvone.entity.User;
  */
 
 public interface UserService {
-    boolean add(User user);
+
+    User add(long vkId, float x, float y);
+
 }

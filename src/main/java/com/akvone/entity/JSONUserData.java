@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Created by Kruchon on 19.11.2016.
  */
+
 public class JSONUserData {
     @JsonProperty("userID")
     private String vkIdLine;

@@ -15,9 +15,16 @@ public class Song implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "vk_id", nullable = true)
+    private Long vkId;
+
     @ManyToOne
     @JoinColumn(name = "singer_id", referencedColumnName = "id")
     private Singer singer;
+
+    @ManyToOne
+    @JoinColumn(name = "style_id", referencedColumnName = "id")
+    private Style style;
 
     public Long getId() {
         return id;
@@ -27,12 +34,28 @@ public class Song implements Serializable {
         this.id = id;
     }
 
+    public Long getVkId() {
+        return vkId;
+    }
+
+    public void setVkId(Long vkId) {
+        this.vkId = vkId;
+    }
+
     public Singer getSinger() {
         return singer;
     }
 
     public void setSinger(Singer singer) {
         this.singer = singer;
+    }
+
+    public Style getStyle() {
+        return style;
+    }
+
+    public void setStyle(Style style) {
+        this.style = style;
     }
 
     @Override
@@ -44,6 +67,7 @@ public class Song implements Serializable {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (singer != null ? !singer.equals(that.singer) : that.singer != null) return false;
+        if (style != null ? !style.equals(that.style) : that.style != null) return false;
 
         return true;
     }
@@ -52,6 +76,7 @@ public class Song implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 3517 * result + (singer != null ? singer.hashCode() : 0);
+        result = 3517 * result + (style != null ? style.hashCode() : 0);
         return result;
     }
 }

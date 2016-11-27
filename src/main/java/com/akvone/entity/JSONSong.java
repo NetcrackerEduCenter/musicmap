@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by Kruchon on 19.11.2016.
  */
+
 public class JSONSong {
     @JsonProperty("aid")
     private Long id;

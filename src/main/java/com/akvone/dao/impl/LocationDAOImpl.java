@@ -5,47 +5,54 @@ package com.akvone.dao.impl;
  */
 
 import com.akvone.entity.Location;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import com.akvone.dao.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Repository
 public class LocationDAOImpl implements LocationDAO {
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
+    private SessionFactory sessionFactory;
 
-    @Transactional
-    public boolean add(Location location) {
-        if (hibernateTemplate.find("from Location location where location.name = " + location.getName()).isEmpty()) {
-            hibernateTemplate.save(location);
-            return true;
-        } else {
-            return false;
+    @Override
+    public Location getById(long id) {
+        Location location;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria locationCriteria = session.createCriteria(Location.class);
+            locationCriteria.add(Restrictions.eq("id", id));
+            location = (Location) locationCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
         }
+        return location;
     }
 
-    @Transactional
-    public void update(Location location) {
-        hibernateTemplate.update(location);
-    }
-
-    @Transactional(readOnly = true)
-    public Location findById(Long id) {
-        return hibernateTemplate.get(Location.class, id);
-    }
-
-    @Transactional
-    public void delete(Location location) {
-        hibernateTemplate.delete(location);
-    }
-
-    @Transactional(readOnly = true)
-    public Set<Location> findAll() {
-        return new HashSet(hibernateTemplate.find("FROM Location"));
+    @Override
+    public Location getByName(String name) {
+        Location location;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria locationCriteria = session.createCriteria(Location.class);
+            locationCriteria.add(Restrictions.eq("name", name));
+            location = (Location) locationCriteria.uniqueResult();
+        } catch (HibernateException ex) {
+            return null;
+        } finally {
+            if (session != null)
+                session.close();
+        }
+        return location;
     }
 }

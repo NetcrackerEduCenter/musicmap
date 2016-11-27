@@ -9,13 +9,10 @@ import java.util.Set;
 
 public interface SingerDAO {
 
-    boolean add(Singer singer);
+    void save(Singer singer);
 
-    void update(Singer singer);
+    boolean exists(String name);
 
-    Singer findById(Long id);
+    Singer getByName(String name);
 
-    void delete(Singer singer);
-
-    Set<Singer> findAll();
 }
