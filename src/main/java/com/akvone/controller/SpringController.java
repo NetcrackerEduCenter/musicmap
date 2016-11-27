@@ -38,17 +38,18 @@ public class SpringController {
     @PostMapping(value = "/add_user")
     public ResponseEntity receiveJSONUserData(@RequestBody JSONUserData jsonUserData) {
 
+        userDataRouter.route(jsonUserData);
         System.out.println("Received from client: " + jsonUserData);
 
         return new ResponseEntity(jsonUserData, HttpStatus.OK);
     }
 
-    /*@RequestMapping(value = "/top", method = RequestMethod.GET)
-    public String sendTopStat(@RequestPart ("locationID") Long locationId, Model model){
+    //statistics
+    @GetMapping(value = "/regStat")
+    public String sendTopStat(@RequestPart ("locationId") Long locationId, Model model){
         model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
-        model.addAttribute("genreTop", historyRecordService.getGenreTop(locationId));
+        model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
         return "start";
-
-    }*/
+    }
 
 }

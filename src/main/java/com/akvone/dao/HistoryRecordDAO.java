@@ -19,11 +19,7 @@ public interface HistoryRecordDAO {
 
     Set<HistoryRecord> getByLocation(Location location);
 
-    //Long getUserCountByLocation(Location location);
-
-    //List<Style> getTopStylesByLocation(Location location);
-
-    Set<String> getTopStylesByLocation(Long locationId);
+    List<String> getTopStylesByLocation(Long locationId);
 
     Long getUserCountByLocationId(Long locationId);
 

@@ -13,8 +13,6 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -122,18 +120,28 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
 
     @Override
     public Long getUserCountByLocationId(Long locationId) {
-        return ((BigDecimal) hibernateTemplate.find("select count (User)from HistoryRecord where location.id = ?", locationId)).longValue();
+        try {
+            Session session = sessionFactory.openSession();
+            Query query = session.createQuery("select count(distinct user) from HistoryRecord where location.id = :locationId");
+            query.setParameter("locationId", locationId);
+            return (Long) query.uniqueResult();
+        }
+        catch (HibernateException ex) {
+            return null;
+        }
     }
 
     @Override
     //not sure in quality
-    public Set<String> getTopStylesByLocation(Long locationId) {
-        return new HashSet(hibernateTemplate.find("select h from HistoryRecord h " +
-                "left join h.song " +
-                "left join SINGERS_STYLES ss on ss.singer_id=s.singer_id " +
-                "left join STYLES st on ss.style_id=st.id " +
-                "where h.location_id = "+locationId+" " +
-                "group by st.name " +
-                "Order by (count(st.id)) desc"));
+    public List<String> getTopStylesByLocation(Long locationId) {
+        try {
+            Session session = sessionFactory.openSession();
+            Query query = session.createQuery("select song.style.name from HistoryRecord  where location = :locationId group by song.style.name order by count(song.style)");
+            query.setParameter("locationId", locationId);
+            return (query.list().isEmpty()?null:query.list());
+        }
+        catch (HibernateException ex) {
+            return null;
+        }
     }
 }
