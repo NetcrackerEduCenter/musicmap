@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface LocationDAO {
 
-    Location getById(long id);
+    Location getById(Long id);
 
     Location getByName(String name);
 

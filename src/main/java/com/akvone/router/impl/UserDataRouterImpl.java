@@ -35,18 +35,29 @@ public class UserDataRouterImpl implements UserDataRouter {
 
     public Set<HistoryRecord> route(JSONUserData jsonUserData){
 
-        User user = userService.add(Long.parseLong(jsonUserData.getVkIdLine()),jsonUserData.getX(),jsonUserData.getY());
+        User user;
+        if ((jsonUserData.getVkIdLine() != "") && (jsonUserData.getVkIdLine() != null)){
+            user = userService.add(Long.parseLong(jsonUserData.getVkIdLine()),jsonUserData.getX(),jsonUserData.getY());
+        } else return null; //throw new RuntimeException("UserID has unacceptable format: " + jsonUserData.getVkIdLine());
 
         Location location = locationService.getById(jsonUserData.getLocationId());
 
+        if (location == null) return null; //throw new RuntimeException("RegionID has not been found in database: " + jsonUserData.getLocationId());
+
         List<JSONSong> songs = jsonUserData.getSongs();
         Set<HistoryRecord> historyRecords = new HashSet<HistoryRecord>();
-        for(Iterator<JSONSong> i = songs.iterator(); i.hasNext(); ) {
-            JSONSong jsonSong = i.next();
-
+        for(JSONSong jsonSong: songs) {
             Style style = styleService.getByName(jsonSong.getStyleName());
-            Singer singer = singerService.add(jsonSong.getSinger());
-            Song song = songService.add(jsonSong.getId(), singer, style);
+            if (style == null) continue;
+
+            Singer singer;
+            if ((jsonSong.getSinger() == null) || (jsonSong.getSinger() == "")) singer = singerService.add("Unknown artist");
+            else singer = singerService.add(jsonSong.getSinger());
+
+            Song song;
+            if (jsonSong.getId() == null) continue;
+            else song = songService.add(jsonSong.getId(), singer, style);
+
             HistoryRecord historyRecord = historyRecordService.add(user,song,location);
 
             historyRecords.add(historyRecord);

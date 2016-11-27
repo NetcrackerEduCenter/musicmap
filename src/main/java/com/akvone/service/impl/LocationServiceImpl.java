@@ -17,7 +17,7 @@ public class LocationServiceImpl implements LocationService {
     private LocationDAO locationDAO;
 
     @Override
-    public Location getById(long id){
+    public Location getById(Long id){
         return locationDAO.getById(id);
     }
 

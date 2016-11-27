@@ -8,10 +8,10 @@ import com.akvone.entity.Song;
 
 public interface SongDAO {
 
-    boolean exists(long vkId);
+    boolean exists(Long vkId);
 
     void save(Song song);
 
-    Song getByVkId(long vkId);
+    Song getByVkId(Long vkId);
 
 }

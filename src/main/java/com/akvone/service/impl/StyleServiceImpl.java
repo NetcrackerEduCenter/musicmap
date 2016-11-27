@@ -22,7 +22,7 @@ public class StyleServiceImpl implements StyleService {
     }
 
     @Override
-    public Style getById(long id){
+    public Style getById(Long id){
         return styleDAO.getById(id);
     }
 

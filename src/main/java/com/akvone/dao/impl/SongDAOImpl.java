@@ -28,7 +28,7 @@ public class SongDAOImpl implements SongDAO {
     }
 
     @Override
-    public boolean exists(long vkId) {
+    public boolean exists(Long vkId) {
         boolean exists = false;
         try {
             Session session = sessionFactory.openSession();
@@ -46,7 +46,7 @@ public class SongDAOImpl implements SongDAO {
     }
 
     @Override
-    public Song getByVkId(long vkId) {
+    public Song getByVkId(Long vkId) {
         Song song;
         Session session = null;
         try {

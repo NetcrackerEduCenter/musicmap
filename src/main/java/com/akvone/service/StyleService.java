@@ -8,7 +8,7 @@ import com.akvone.entity.Style;
 
 public interface StyleService {
 
-    Style getById(long id);
+    Style getById(Long id);
 
     Style getByName(String name);
 

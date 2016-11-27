@@ -8,6 +8,6 @@ import com.akvone.entity.User;
 
 public interface UserService {
 
-    User add(long vkId, float x, float y);
+    User add(Long vkId, float x, float y);
 
 }

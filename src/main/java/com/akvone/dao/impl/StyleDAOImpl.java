@@ -39,7 +39,7 @@ public class StyleDAOImpl implements StyleDAO {
     }
 
     @Override
-    public Style getById(long id) {
+    public Style getById(Long id) {
         Style style;
         Session session = null;
         try {

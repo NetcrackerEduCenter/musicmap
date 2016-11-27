@@ -11,8 +11,8 @@ public interface UserDAO {
 
     void save(User user);
 
-    boolean exists(long vkId);
+    boolean exists(Long vkId);
 
-    User getByVkId(long vkId);
+    User getByVkId(Long vkId);
 
 }

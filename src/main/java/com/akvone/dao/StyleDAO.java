@@ -10,6 +10,6 @@ public interface StyleDAO {
 
     Style getByName(String name);
 
-    Style getById(long id);
+    Style getById(Long id);
 
 }

@@ -25,7 +25,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean exists(long vkId) {
+    public boolean exists(Long vkId) {
         boolean exists = false;
         try {
             Session session = sessionFactory.openSession();
@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getByVkId(long vkId) {
+    public User getByVkId(Long vkId) {
         User user;
         Session session = null;
         try {

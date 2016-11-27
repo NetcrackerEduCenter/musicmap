@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Override
-    public User add(long vkId, float x, float y) {
+    public User add(Long vkId, float x, float y) {
         User user;
         if (userDAO.exists(vkId)){
             user = userDAO.getByVkId(vkId);

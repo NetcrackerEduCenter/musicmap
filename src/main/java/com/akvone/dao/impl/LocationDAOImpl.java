@@ -21,7 +21,7 @@ public class LocationDAOImpl implements LocationDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public Location getById(long id) {
+    public Location getById(Long id) {
         Location location;
         Session session = null;
         try {

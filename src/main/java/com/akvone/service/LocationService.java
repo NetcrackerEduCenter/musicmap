@@ -8,7 +8,7 @@ import com.akvone.entity.Location;
 
 public interface LocationService {
 
-    Location getById(long id);
+    Location getById(Long id);
 
     Location getByName(String name);
 
