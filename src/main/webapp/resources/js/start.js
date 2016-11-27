@@ -13,7 +13,7 @@ $("#getAudio").click(function () {
     VK.Auth.login(function (response) {
         if (response.session) {
             /* Пользователь успешно авторизовался */
-            userInformation.vkId = response.session.mid;
+            userInformation.userID = response.session.mid;
             VK.Api.call('audio.get',
                 {owner_id: userInformation.userID},
                 function (result) {
@@ -115,7 +115,7 @@ $("#send").click(function () {
     if (!userInformation.x) {
         alert("Ошибка. Не определено местоположение.");
     }
-    else if (coords == "low accuracy") {
+    else if (userInformation.x == "low accuracy") {
         alert("Ошибка. Низкая точность местоположения.");
     }
     else if (!userInformation.audios) {
@@ -132,7 +132,7 @@ $("#send").click(function () {
                 "Accept" : "application/json; charset=utf-8"
             },
             contentType:"application/json; charset=utf-8",
-            data: userInformation,
+            data: JSON.stringify(userInformation),
             dataType:"json"
         })
     }
