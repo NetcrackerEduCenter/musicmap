@@ -1,6 +1,10 @@
 ymaps.ready(init);
 
-var browserSession = {};
+var tempInformation = {
+    previousPolygonIndex: -1,
+    nextPolygonIndex: -1
+};
+
 var userInformation = {};
 var polygons = [];
 
@@ -44,31 +48,30 @@ function init() {
     });
 
     //Формируем полигоны из массива в location.js
+    polygons = [];
     for (i = 0; i < locations.length; i++) {
-        polygons[i] = [];
-        for (j = 0; j < locations[i].coords.length; j++) {
-            polygons[i][j] = new ymaps.GeoObject({
-                geometry: {
-                    type: "Polygon",
-                    coordinates: [locations[i].coords[j],],
-                    fillRule: "nonZero"
-                },
-                properties: {
-                    balloonContent: locations[i].name
-                }
-            }, {
-                fillColor: locations[i].color,
-                strokeColor: '#0000FF',
-                opacity: 0.3,
-                strokeWidth: 4,
-                strokeStyle: 'shortdash'
-            });
-            myMap.geoObjects.add(polygons[i][j]);
-            //Добавляем функцию на клик по полигону
-            polygons[i][j].events.add('click', function (e) {
-                showRegionInformation(e.get('coords'));
-            });
-        }
+        polygons[i] = new ymaps.GeoObject({
+            geometry: {
+                type: "Polygon",
+                coordinates: locations[i].coords,
+                fillRule: "nonZero"
+            },
+            properties: {
+                // balloonContent: locations[i].name
+            }
+        }, {
+            fillColor: '#4CAF50',
+            fillOpacity: 0.15,
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.4,
+            strokeWidth: 2,
+            strokeStyle: 'shortdash'
+        });
+        myMap.geoObjects.add(polygons[i]);
+        //Добавляем функцию на клик по полигону
+        polygons[i].events.add('click', function (e) {
+            showRegionInformation(e.get('coords'));
+        });
     }
 
     //Получаем кнопку с id "findMe" и вешаем на нее listener на клик
@@ -126,14 +129,14 @@ $("#send").click(function () {
     }
     else {
         $.ajax({
-            url:"/add_user",
-            type:"POST",
+            url: "/add_user",
+            type: "POST",
             headers: {
-                "Accept" : "application/json; charset=utf-8"
+                "Accept": "application/json; charset=utf-8"
             },
-            contentType:"application/json; charset=utf-8",
+            contentType: "application/json; charset=utf-8",
             data: JSON.stringify(userInformation),
-            dataType:"json"
+            dataType: "json"
         })
     }
 })
