@@ -23,9 +23,6 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private HibernateTemplate hibernateTemplate;  //оставил для двух последних методов (не мои) by nikitafedorovv
-
     @Transactional
     @Override
     public void save(HistoryRecord historyRecord) {
@@ -88,35 +85,6 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
         }
         return historyRecords;
     }
-
-//    //version of two last methods (by nikitafedorovv)
-//
-//    @Override
-//    public Long getUserCountByLocation(Location location){
-//
-//        Session session = sessionFactory.getCurrentSession();
-//        Query query = session.createQuery("select count(distinct R.user) from HistoryRecord R where R.location = :locationParameter");
-//        query.setParameter("locationParameter", location);
-//        query.setMaxResults(1);
-//        if (!query.list().isEmpty()) {
-//            return Long.parseLong(query.uniqueResult().toString()); //no idea whether it returns string or long/int value. just to insure (by nikitafedorovv)
-//        }
-//        return new Long(0);
-//    }
-//
-//    @Override
-//    public List<Style> getTopStylesByLocation(Location location) {
-//        Session session = sessionFactory.getCurrentSession();
-//
-//        Query query = session.createQuery("select R.song.style from HistoryRecord R where R.location = :locationParameter group by R.song.style.name order by count(R.song.style)");
-//        query.setParameter("locationParameter", location);
-//
-//        List topStyles = query.list();
-//        if ((topStyles.size() > 0)&&(topStyles.get(0) instanceof Style)){
-//            return (List<Style>)query.list();
-//        }
-//        return new ArrayList<Style>();
-//    }
 
     @Override
     public Long getUserCountByLocationId(Long locationId) {

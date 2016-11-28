@@ -21,6 +21,7 @@ public class SingerDAOImpl implements SingerDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Override
     @Transactional
     public void save(Singer singer) {
         Session session = sessionFactory.getCurrentSession();

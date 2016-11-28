@@ -16,13 +16,10 @@ import java.util.Set;
  */
 
 @Service
-public class HistoryRecordRecordServiceImpl implements HistoryRecordService {
+public class HistoryRecordServiceImpl implements HistoryRecordService {
 
     @Autowired
     private HistoryRecordDAO historyRecordDAO;
-
-    @Autowired
-    private LocationDAO locationDAO;
 
     @Override
     public HistoryRecord add(User user, Song song, Location location){

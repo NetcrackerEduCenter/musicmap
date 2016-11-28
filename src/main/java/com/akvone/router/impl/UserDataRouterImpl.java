@@ -36,7 +36,7 @@ public class UserDataRouterImpl implements UserDataRouter {
     public Set<HistoryRecord> route(JSONUserData jsonUserData){
 
         User user;
-        if ((jsonUserData.getVkIdLine() != "") && (jsonUserData.getVkIdLine() != null)){
+        if ((!jsonUserData.getVkIdLine().equals("")) && (jsonUserData.getVkIdLine() != null)){
             user = userService.add(Long.parseLong(jsonUserData.getVkIdLine()),jsonUserData.getX(),jsonUserData.getY());
         } else return null; //throw new RuntimeException("UserID has unacceptable format: " + jsonUserData.getVkIdLine());
 
@@ -47,11 +47,13 @@ public class UserDataRouterImpl implements UserDataRouter {
         List<JSONSong> songs = jsonUserData.getSongs();
         Set<HistoryRecord> historyRecords = new HashSet<HistoryRecord>();
         for(JSONSong jsonSong: songs) {
-            Style style = styleService.getByName(jsonSong.getStyleName());
-            if (style == null) continue;
+            Style style;
+            if (jsonSong.getStyleName() != null) style = styleService.getById(Long.parseLong(jsonSong.getStyleName()));
+            else continue;
+//            if (style == null) continue;
 
             Singer singer;
-            if ((jsonSong.getSinger() == null) || (jsonSong.getSinger() == "")) singer = singerService.add("Unknown artist");
+            if ((jsonSong.getSinger() == null) || (jsonSong.getSinger().equals(""))) singer = singerService.add("Unknown artist");
             else singer = singerService.add(jsonSong.getSinger());
 
             Song song;

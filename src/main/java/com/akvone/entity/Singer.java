@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class Singer implements Serializable {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
