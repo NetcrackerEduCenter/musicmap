@@ -9,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * Created by Kirill on 04.11.2016.
@@ -44,12 +47,23 @@ public class SpringController {
         return new ResponseEntity(jsonUserData, HttpStatus.OK);
     }
 
-    //statistics
-    @GetMapping(value = "/regStat")
-    public String sendTopStat(@RequestPart ("locationId") Long locationId, Model model){
+    @RequestMapping(value = {"/regStat"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String search(@RequestParam ("locationId") Long locationId, ModelMap model) {
         model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
         model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
-        return "start";
+
+        return "userCount:"
+                +historyRecordService.getUserCountByLocationId(locationId)
+                +"getStyleTop"
+                +historyRecordService.getStyleTop(locationId);
     }
+    //statistics
+//    @RequestMapping(value = "/regStat", method = RequestMethod.GET)
+//    public String sendTopStat(@RequestParam ("locationId") Long locationId, Model model){
+//        model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
+//        model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
+//        return "start";
+//    }
 
 }

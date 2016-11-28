@@ -24,11 +24,12 @@ $("#getAudio").click(function () {
                     result.response.shift();
                     userInformation.audios = result.response;
                     VK.Auth.revokeGrants();
+                    setToastText("Успешно получен список Ваших песен");
                     console.log(userInformation);
                 });
         }
         else {
-            /* Пользователь нажал кнопку Отмена в окне авторизации */
+            setToastText("Отмена получения списка песен");
         }
     }, 8);
 });
@@ -81,10 +82,10 @@ function init() {
             mapStateAutoApply: false,
             autoReverseGeocode: true
         }).then(function (result) {
-            console.log("Местоположение определено. Продолжаю");
-
+            ;
             result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
             if (result.geoObjects.accuracy < 2000) {
+                setToastText("Местоположение определено")
                 var coords = result.geoObjects.get(0).geometry.getCoordinates();
                 userInformation.x = coords[0];
                 userInformation.y = coords[1];
@@ -101,6 +102,7 @@ function init() {
                 }
             } else {
                 userInformation.x = "low accuracy";
+                setToastText("Очень низкая точность при определении местоположения");
             }
         }, function (e) {
             console.log("Произошла ошибка при определении местоположения");
@@ -116,16 +118,16 @@ $("#send").click(function () {
     console.log("Объект для отправки");
     console.log(userInformation);
     if (!userInformation.x) {
-        alert("Ошибка. Не определено местоположение.");
+        setToastText("Ошибка! Не определено местоположение");
     }
     else if (userInformation.x == "low accuracy") {
-        alert("Ошибка. Низкая точность местоположения.");
+        setToastText("Ошибка! Низкая точность местоположения");
     }
     else if (!userInformation.audios) {
-        alert("Ошибка. Не получен список аудизаписей.");
+        setToastText("Ошибка! Не получен список аудизаписей");
     }
     else if (!userInformation.locationID) {
-        alert("Ошибка. Не определен район СПБ.")
+        setToastText("Ошибка! Не определен район СПБ");
     }
     else {
         $.ajax({

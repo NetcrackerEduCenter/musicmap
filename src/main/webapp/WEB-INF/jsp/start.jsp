@@ -8,8 +8,8 @@
     <title>Person On Map</title>
 
     <link href="resources/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/css/materialize.css">
     <%--<link href="resources/css/bootstrap.min.css" rel="stylesheet">--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 </head>
 <body>
 <div id="main">
