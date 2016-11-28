@@ -6,9 +6,10 @@ function closeNav() {
     $("#mySidenav").width(0);
 }
 
-function setRegionInformation(locationName, numberOfUsers) {
+function setRegionInformation(locationName, numberOfUsers, rating) {
     $("#regionName").text(locationName);
     $("#numberOfUsers").text(numberOfUsers);
+    $("#rating").text(rating);
 }
 
 function setPolygonColor(indexUnselected,indexSelected) {
@@ -23,9 +24,11 @@ function setPolygonColor(indexUnselected,indexSelected) {
 }
 
 function changeRegionInformation(previousPolygonIndex, nextPolygonIndex) {
-    setRegionInformation(locations[nextPolygonIndex].name, Math.ceil(Math.random() * 100));
+    setRegionInformation(locations[nextPolygonIndex].name, "Загрузка...", "Загрузка...");
     $.get("/regStat", {locationId: locations[nextPolygonIndex].id}, function (data) {
-        alert("Data Loaded: " + data);
+        var object = JSON.parse(data);
+        console.log(object);
+        setRegionInformation(locations[nextPolygonIndex].name, object.userCount, object.topStyles)
     });
     setPolygonColor(previousPolygonIndex, nextPolygonIndex);
 }

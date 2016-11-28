@@ -53,10 +53,11 @@ public class SpringController {
         model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
         model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
 
-        return "userCount:"
+        return "{\"userCount\":"
                 +historyRecordService.getUserCountByLocationId(locationId)
-                +"getStyleTop"
-                +historyRecordService.getStyleTop(locationId);
+                +",\"topStyles\":"
+                +historyRecordService.getStyleTop(locationId)
+                +"}";
     }
     //statistics
 //    @RequestMapping(value = "/regStat", method = RequestMethod.GET)

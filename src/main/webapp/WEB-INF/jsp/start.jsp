@@ -21,7 +21,7 @@
             <div class="drawer-title">Количество пользователей</div>
             <div class="drawer-content" id="numberOfUsers"></div>
             <div class="drawer-title">Рейтинг</div>
-            <div class="drawer-content">Загрузка...</div>
+            <div class="drawer-content" id="rating">Рейтинг</div>
         </div>
         <div id="top_buttons">
             <div class="btn-group" role="group" aria-label="...">
