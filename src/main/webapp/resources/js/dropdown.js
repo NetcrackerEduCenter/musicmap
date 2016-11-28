@@ -11,13 +11,15 @@ function setRegionInformation(locationName, numberOfUsers) {
     $("#numberOfUsers").text(numberOfUsers);
 }
 
-function setPolygonColor(previousPolygonIndex, nextPolygonIndex) {
-    if (previousPolygonIndex != -1) {
-        polygons[previousPolygonIndex].options.set('fillColor', '#4CAF50');
-        polygons[previousPolygonIndex].options.set('fillOpacity', 0.15);
+function setPolygonColor(indexUnselected,indexSelected) {
+    if (indexUnselected != -1) {
+        polygons[indexUnselected].options.set('fillColor', '#4CAF50');
+        polygons[indexUnselected].options.set('fillOpacity', 0.15);
     }
-    polygons[nextPolygonIndex].options.set('fillColor', '#FF4500');
-    polygons[nextPolygonIndex].options.set('fillOpacity', 0.5);
+    if (indexSelected != -1) {
+        polygons[indexSelected].options.set('fillColor', '#FF4500');
+        polygons[indexSelected].options.set('fillOpacity', 0.5);
+    }
 }
 
 function changeRegionInformation(previousPolygonIndex, nextPolygonIndex) {
@@ -44,6 +46,7 @@ var showRegionInformation = function (coords) {
         }
         openNav();
     } else {
+        setPolygonColor(tempInformation.nextPolygonIndex,-1);
         closeNav()
     }
 };
