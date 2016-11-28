@@ -1,15 +1,12 @@
 package com.akvone.service.impl;
 
 import com.akvone.dao.HistoryRecordDAO;
-import com.akvone.dao.LocationDAO;
 import com.akvone.entity.*;
 import com.akvone.service.HistoryRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by ToGo on 20.11.2016.
@@ -24,7 +21,6 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
     @Override
     public HistoryRecord add(User user, Song song, Location location){
         if(!historyRecordDAO.exists(user,song)){
-        } else {
             HistoryRecord historyRecord = new HistoryRecord();
             historyRecord.setUser(user);
             historyRecord.setSong(song);
