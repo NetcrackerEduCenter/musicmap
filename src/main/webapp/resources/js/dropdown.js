@@ -50,7 +50,9 @@ var showRegionInformation = function (coords) {
         openNav();
     } else {
         setPolygonColor(tempInformation.nextPolygonIndex,-1);
-        closeNav()
+        tempInformation.previousPolygonIndex = -1;
+        tempInformation.nextPolygonIndex = -1;
+        closeNav();
     }
 };
 
