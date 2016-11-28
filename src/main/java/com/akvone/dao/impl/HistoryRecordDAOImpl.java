@@ -4,12 +4,14 @@ package com.akvone.dao.impl;
  * Created by nikitafedorovv on 15/11/2016.
  */
 
-import com.akvone.dao.*;
-import com.akvone.entity.*;
+import com.akvone.dao.HistoryRecordDAO;
+import com.akvone.entity.HistoryRecord;
+import com.akvone.entity.Location;
+import com.akvone.entity.Song;
+import com.akvone.entity.User;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,8 +90,9 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
 
     @Override
     public Long getUserCountByLocationId(Long locationId) {
+        Session session=null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("select count(distinct user) from HistoryRecord where location.id = :locationId");
             query.setParameter("locationId", locationId);
             return (Long) query.uniqueResult();
@@ -97,19 +100,28 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
         catch (HibernateException ex) {
             return null;
         }
+        finally {
+            if (session!=null)
+                session.close();
+        }
     }
 
     @Override
     //not sure in quality
     public List<String> getTopStylesByLocation(Long locationId) {
+        Session session=null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             Query query = session.createQuery("select song.style.name from HistoryRecord  where location = :locationId group by song.style.name order by count(song.style)");
             query.setParameter("locationId", locationId);
             return (query.list().isEmpty()?null:query.list());
         }
         catch (HibernateException ex) {
             return null;
+        }
+        finally {
+            if(session!=null)
+                session.close();
         }
     }
 }

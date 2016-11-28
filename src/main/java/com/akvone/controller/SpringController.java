@@ -13,8 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * Created by Kirill on 04.11.2016.
  */
@@ -50,8 +48,9 @@ public class SpringController {
     @RequestMapping(value = {"/regStat"}, method = RequestMethod.GET)
     @ResponseBody
     public String search(@RequestParam ("locationId") Long locationId, ModelMap model) {
-        model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
-        model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
+        //why u don't use it? (by MM)
+        //model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
+        //model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
 
         return "{\"userCount\":"
                 +historyRecordService.getUserCountByLocationId(locationId)
@@ -59,12 +58,5 @@ public class SpringController {
                 +historyRecordService.getStyleTop(locationId)
                 +"}";
     }
-    //statistics
-//    @RequestMapping(value = "/regStat", method = RequestMethod.GET)
-//    public String sendTopStat(@RequestParam ("locationId") Long locationId, Model model){
-//        model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
-//        model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
-//        return "start";
-//    }
 
 }
