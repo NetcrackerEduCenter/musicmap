@@ -5,7 +5,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Person On Map</title>
+    <title>MusicMap</title>
 
     <link href="resources/css/main.css" rel="stylesheet">
     <link rel="stylesheet" href="resources/css/materialize.css">
