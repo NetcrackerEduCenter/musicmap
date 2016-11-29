@@ -22,7 +22,7 @@ public class SongServiceImpl implements SongService {
     public Song add(Long vkId, Singer singer, Style style){
         Song song;
         if(songDAO.exists(vkId)){
-            song =  songDAO.getByVkId(vkId);
+            song = songDAO.getByVkId(vkId);
         } else {
             song = new Song();
             song.setVkId(vkId);

@@ -40,10 +40,7 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
             Criteria historyRecordCriteria = session.createCriteria(HistoryRecord.class);
             historyRecordCriteria.add(Restrictions.eq("user", user));
             historyRecordCriteria.add(Restrictions.eq("song", song));
-            if (historyRecordCriteria.uniqueResult() != null)
-                exists = true;
-            else
-                exists = false;
+            exists = !historyRecordCriteria.list().isEmpty();
             session.close();
         } catch (HibernateException ex) {
             return false;
@@ -60,7 +57,7 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
             Criteria historyRecordCriteria = session.createCriteria(HistoryRecord.class);
             historyRecordCriteria.add(Restrictions.eq("user", user));
             historyRecordCriteria.add(Restrictions.eq("song", song));
-            historyRecord = (HistoryRecord) historyRecordCriteria.uniqueResult();
+            historyRecord = (HistoryRecord) historyRecordCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {

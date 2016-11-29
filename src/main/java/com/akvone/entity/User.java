@@ -28,6 +28,8 @@ public class User implements Serializable {
     @Column(name = "ycoord")
     private float y;
 
+    public User(){}
+
     public Long getId() {
         return id;
     }
@@ -75,8 +77,8 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 3517 * result + (vkId != null ? vkId.hashCode() : 0);
+        int result = vkId != null ? vkId.hashCode() : 0;
+        result = 3517 * result + (id != null ? id.hashCode() : 0);
         return result;
     }
 }

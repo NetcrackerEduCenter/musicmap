@@ -16,7 +16,7 @@ public class Song implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "vk_id", nullable = true)
+    @Column(name = "vk_id", unique = true)
     private Long vkId;
 
     @ManyToOne
@@ -26,6 +26,8 @@ public class Song implements Serializable {
     @ManyToOne
     @JoinColumn(name = "style_id", referencedColumnName = "id")
     private Style style;
+
+    public Song(){}
 
     public Long getId() {
         return id;
@@ -75,8 +77,8 @@ public class Song implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 3517 * result + (singer != null ? singer.hashCode() : 0);
+        int result = singer != null ? singer.hashCode() : 0;
+        result = 3517 * result + (id != null ? id.hashCode() : 0);
         result = 3517 * result + (style != null ? style.hashCode() : 0);
         return result;
     }

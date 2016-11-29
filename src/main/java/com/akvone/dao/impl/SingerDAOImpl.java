@@ -33,12 +33,9 @@ public class SingerDAOImpl implements SingerDAO {
         boolean exists = false;
         try {
             Session session = sessionFactory.openSession();
-            Criteria styleCriteria = session.createCriteria(Singer.class);
-            styleCriteria.add(Restrictions.eq("name", name));
-            if (styleCriteria.uniqueResult() != null)
-                exists = true;
-            else
-                exists = false;
+            Criteria singerCriteria = session.createCriteria(Singer.class);
+            singerCriteria.add(Restrictions.eq("name", name));
+            exists = !singerCriteria.list().isEmpty();
             session.close();
         } catch (HibernateException ex) {
             return false;
@@ -54,7 +51,7 @@ public class SingerDAOImpl implements SingerDAO {
             session = sessionFactory.openSession();
             Criteria singerCriteria = session.createCriteria(Singer.class);
             singerCriteria.add(Restrictions.eq("name", name));
-            singer = (Singer) singerCriteria.uniqueResult();
+            singer = (Singer) singerCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {

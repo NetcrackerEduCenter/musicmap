@@ -24,8 +24,10 @@ public class SongDAOImpl implements SongDAO {
     @Override
     @Transactional
     public void save(Song song) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();//.getCurrentSession();
+        //session.persist(song);
         session.saveOrUpdate(song);
+        session.close();
     }
 
     @Override
@@ -34,11 +36,12 @@ public class SongDAOImpl implements SongDAO {
         try {
             Session session = sessionFactory.openSession();
             Criteria songCriteria = session.createCriteria(Song.class);
-            songCriteria.add(Restrictions.eq("vk_id", vkId));
-            if (songCriteria.uniqueResult() != null)
-                exists = true;
-            else
-                exists = false;
+            songCriteria.add(Restrictions.eq("vkId", vkId));
+
+
+            exists = !songCriteria.list().isEmpty();
+
+            //exists = songCriteria.uniqueResult() != null;
             session.close();
         } catch (HibernateException ex) {
             return false;
@@ -53,8 +56,8 @@ public class SongDAOImpl implements SongDAO {
         try {
             session = sessionFactory.openSession();
             Criteria songCriteria = session.createCriteria(Song.class);
-            songCriteria.add(Restrictions.eq("vk_id", vkId));
-            song = (Song) songCriteria.uniqueResult();
+            songCriteria.add(Restrictions.eq("vkId", vkId));
+            song = (Song) songCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {
@@ -63,5 +66,4 @@ public class SongDAOImpl implements SongDAO {
         }
         return song;
     }
-
 }

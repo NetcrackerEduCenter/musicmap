@@ -31,10 +31,7 @@ public class UserDAOImpl implements UserDAO {
             Session session = sessionFactory.openSession();
             Criteria userCriteria = session.createCriteria(User.class);
             userCriteria.add(Restrictions.eq("vkId", vkId));
-            if (userCriteria.uniqueResult() != null)
-                exists = true;
-            else
-                exists = false;
+            exists = !userCriteria.list().isEmpty();
             session.close();
         } catch (HibernateException ex) {
             return false;
@@ -50,7 +47,7 @@ public class UserDAOImpl implements UserDAO {
             session = sessionFactory.openSession();
             Criteria userCriteria = session.createCriteria(User.class);
             userCriteria.add(Restrictions.eq("vkId", vkId));
-            user = (User) userCriteria.uniqueResult();
+            user = (User) userCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {

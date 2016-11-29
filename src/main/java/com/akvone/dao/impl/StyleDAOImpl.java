@@ -28,7 +28,7 @@ public class StyleDAOImpl implements StyleDAO {
             session = sessionFactory.openSession();
             Criteria styleCriteria = session.createCriteria(Style.class);
             styleCriteria.add(Restrictions.eq("name", name));
-            style = (Style) styleCriteria.uniqueResult();
+            style = (Style) styleCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {
@@ -46,7 +46,7 @@ public class StyleDAOImpl implements StyleDAO {
             session = sessionFactory.openSession();
             Criteria styleCriteria = session.createCriteria(Style.class);
             styleCriteria.add(Restrictions.eq("id", id));
-            style = (Style) styleCriteria.uniqueResult();
+            style = (Style) styleCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {

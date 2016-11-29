@@ -28,7 +28,7 @@ public class LocationDAOImpl implements LocationDAO {
             session = sessionFactory.openSession();
             Criteria locationCriteria = session.createCriteria(Location.class);
             locationCriteria.add(Restrictions.eq("id", id));
-            location = (Location) locationCriteria.uniqueResult();
+            location = (Location) locationCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {
@@ -46,7 +46,7 @@ public class LocationDAOImpl implements LocationDAO {
             session = sessionFactory.openSession();
             Criteria locationCriteria = session.createCriteria(Location.class);
             locationCriteria.add(Restrictions.eq("name", name));
-            location = (Location) locationCriteria.uniqueResult();
+            location = (Location) locationCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
         } finally {

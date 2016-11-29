@@ -1,5 +1,8 @@
 package com.akvone.entity;
 
+import org.hibernate.annotations.Nationalized;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -17,8 +20,11 @@ public class Singer implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "name", nullable = false)
+    //@Type(type="org.hibernate.type.StringNVarcharType")
+    @Column(name = "name", nullable = false, unique = true, columnDefinition = "NVARCHAR(255)")
     private String name;
+
+    public Singer(){}
 
     public Long getId() {
         return id;
@@ -51,8 +57,8 @@ public class Singer implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 3517 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
+        result = 3517 * result + (id != null ? id.hashCode() : 0);
         return result;
     }
 }

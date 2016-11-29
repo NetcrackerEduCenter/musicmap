@@ -21,11 +21,7 @@ public class Style implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-//    @ManyToMany
-//    @JoinTable(name = "SINGERS_STYLES",
-//            joinColumns = {@JoinColumn(name = "style_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "singer_id")})
-//    private Set<Singer> singers = new HashSet<Singer>();
+    public Style(){}
 
     public Long getId() {
         return id;
@@ -43,14 +39,6 @@ public class Style implements Serializable {
         this.name = name;
     }
 
-//    public Set<Singer> getSingers() {
-//        return singers;
-//    }
-//
-//    public void setSingers(Set<Singer> singers) {
-//        this.singers = singers;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,15 +48,13 @@ public class Style implements Serializable {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-//        if (singers != null ? !singers.equals(that.singers) : that.singers != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 3517 * result + (name != null ? name.hashCode() : 0);
-//        result = 3517 * result + (singers != null ? singers.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
+        result = 3517 * result + (id != null ? id.hashCode() : 0);
         return result;
     }
 }
