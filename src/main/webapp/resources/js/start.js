@@ -90,16 +90,6 @@ function init() {
                 userInformation.x = coords[0];
                 userInformation.y = coords[1];
                 myMap.geoObjects.add(result.geoObjects);
-                //Определяем id района по координатам юзера
-                userInformation.locationID = undefined;
-                for (i = 0; i < polygons.length; i++) {
-                    for (j = 0; j < polygons[i].length; j++) {
-                        if (polygons[i][j].geometry.contains(coords)) {
-                            userInformation.locationID = locations[i].id;
-                            break;
-                        }
-                    }
-                }
             } else {
                 userInformation.x = "low accuracy";
                 setToastText("Очень низкая точность при определении местоположения");
@@ -116,6 +106,8 @@ function init() {
 //Вешаем listener на кнопку send
 $("#send").click(function () {
     console.log("Объект для отправки");
+    userInformation.locationID =
+        getLocationIDByCoordinates([userInformation.x, userInformation.y])
     console.log(userInformation);
     if (!userInformation.x) {
         setToastText("Ошибка! Не определено местоположение");
@@ -126,7 +118,7 @@ $("#send").click(function () {
     else if (!userInformation.audios) {
         setToastText("Ошибка! Не получен список аудизаписей");
     }
-    else if (!userInformation.locationID) {
+    else if (userInformation.locationID == -1) {
         setToastText("Ошибка! Не определен район СПБ");
     }
     else {
@@ -139,6 +131,6 @@ $("#send").click(function () {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(userInformation),
             dataType: "json"
-        })
+        });
     }
 })
