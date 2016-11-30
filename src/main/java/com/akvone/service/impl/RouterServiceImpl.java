@@ -6,14 +6,14 @@ import com.akvone.service.UserService;
 import com.akvone.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 
-@Component
+@Service
 public class RouterServiceImpl implements RouterService {
 
     @Autowired
