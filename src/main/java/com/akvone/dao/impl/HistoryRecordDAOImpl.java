@@ -1,15 +1,18 @@
 package com.akvone.dao.impl;
 
+/**
+ * Created by nikitafedorovv on 15/11/2016.
+ */
+
 import com.akvone.dao.HistoryRecordDAO;
 import com.akvone.entity.HistoryRecord;
 import com.akvone.entity.Location;
 import com.akvone.entity.Song;
 import com.akvone.entity.User;
-
-import org.hibernate.SessionFactory;
-import org.hibernate.HibernateException;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -88,7 +91,7 @@ public class HistoryRecordDAOImpl implements HistoryRecordDAO {
     //not sure in quality
     public List<String> getTopStylesByLocation(Long locationId) {
         try {
-            Query query = sessionFactory.getCurrentSession().createQuery("select song.style.name from HistoryRecord  where location = :locationId group by song.style.name order by count(song.style.name)");
+            Query query = sessionFactory.getCurrentSession().createQuery("select song.style.name from HistoryRecord where location.id = :locationId group by song.style.name order by count(distinct song.style.id)");
             query.setParameter("locationId", locationId);
             return (query.list().isEmpty()?null:query.list());
         }

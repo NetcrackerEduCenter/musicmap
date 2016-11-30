@@ -1,10 +1,8 @@
 package com.akvone.controller;
 
 import com.akvone.entity.JSONUserData;
-import com.akvone.service.RouterService;
 import com.akvone.service.HistoryRecordService;
-
-import org.apache.log4j.Logger;
+import com.akvone.service.RouterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 @Controller
 @RequestMapping("")
@@ -50,7 +45,6 @@ public class SpringController {
     @RequestMapping(value = {"/regStat"}, method = RequestMethod.GET)
     @ResponseBody
     public String search(@RequestParam ("locationId") Long locationId, ModelMap model) {
-        //why u don't use it? (by MM)
         //model.addAttribute("userCount",historyRecordService.getUserCountByLocationId(locationId));
         //model.addAttribute("genreTop", historyRecordService.getStyleTop(locationId));
 
