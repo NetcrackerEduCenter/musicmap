@@ -85,7 +85,7 @@ function init() {
             ;
             result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
             if (result.geoObjects.accuracy < 2000) {
-                setToastText("Местоположение определено")
+                setToastText("Местоположение определено ")
                 var coords = result.geoObjects.get(0).geometry.getCoordinates();
                 userInformation.x = coords[0];
                 userInformation.y = coords[1];
@@ -122,6 +122,7 @@ $("#send").click(function () {
         setToastText("Ошибка! Не определен район СПБ");
     }
     else {
+        setToastText("ОК! Отправляем ваши данные");
         $.ajax({
             url: "/add_user",
             type: "POST",
