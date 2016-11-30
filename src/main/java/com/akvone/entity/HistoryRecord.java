@@ -3,10 +3,6 @@ package com.akvone.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
-
 @Entity
 @Table(name = "HISTORY", schema = "musicDB", catalog = "")
 @IdClass(HistoryRecordPK.class)

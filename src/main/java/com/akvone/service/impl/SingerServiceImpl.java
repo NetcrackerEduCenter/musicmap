@@ -3,12 +3,9 @@ package com.akvone.service.impl;
 import com.akvone.dao.SingerDAO;
 import com.akvone.entity.Singer;
 import com.akvone.service.SingerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-/**
- * Created by nikitafedorovv on 26/11/2016.
- */
 
 @Service
 public class SingerServiceImpl implements SingerService {

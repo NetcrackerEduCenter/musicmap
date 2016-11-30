@@ -1,57 +1,46 @@
 package com.akvone.dao.impl;
 
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
-
-import com.akvone.dao.*;
+import com.akvone.dao.StyleDAO;
 import com.akvone.entity.Style;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class StyleDAOImpl implements StyleDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public Style getByName(String name) {
-        Style style;
-        Session session = null;
+    public boolean exists(Long id) {
+        boolean exists = false;
         try {
-            session = sessionFactory.openSession();
-            Criteria styleCriteria = session.createCriteria(Style.class);
-            styleCriteria.add(Restrictions.eq("name", name));
-            style = (Style) styleCriteria.list().get(0);
+            Criteria styleCriteria = sessionFactory.getCurrentSession().createCriteria(Style.class);
+            styleCriteria.add(Restrictions.eq("id", id));
+
+            exists = !styleCriteria.list().isEmpty();
         } catch (HibernateException ex) {
-            return null;
-        } finally {
-            if (session != null)
-                session.close();
+            return false;
         }
-        return style;
+        return exists;
     }
 
     @Override
     public Style getById(Long id) {
         Style style;
-        Session session = null;
         try {
-            session = sessionFactory.openSession();
-            Criteria styleCriteria = session.createCriteria(Style.class);
+            Criteria styleCriteria = sessionFactory.getCurrentSession().createCriteria(Style.class);
             styleCriteria.add(Restrictions.eq("id", id));
             style = (Style) styleCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
-        } finally {
-            if (session != null)
-                session.close();
         }
         return style;
     }

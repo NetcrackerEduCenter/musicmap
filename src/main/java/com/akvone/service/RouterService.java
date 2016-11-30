@@ -1,14 +1,10 @@
-package com.akvone.router;
+package com.akvone.service;
 
 import com.akvone.entity.HistoryRecord;
 import com.akvone.entity.JSONUserData;
 
 import java.util.Set;
 
-/**
- * Created by nikitafedorovv on 25/11/2016.
- */
-
-public interface UserDataRouter {
+public interface RouterService {
     Set<HistoryRecord> route(JSONUserData jsonUserData);
 }

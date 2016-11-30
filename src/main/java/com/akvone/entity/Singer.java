@@ -1,14 +1,7 @@
 package com.akvone.entity;
 
-import org.hibernate.annotations.Nationalized;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.Serializable;
-
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
 
 @Entity
 @Table(name = "SINGERS", schema = "musicDB", catalog = "")
@@ -20,7 +13,6 @@ public class Singer implements Serializable {
     private Long id;
 
     @Basic
-    //@Type(type="org.hibernate.type.StringNVarcharType")
     @Column(name = "name", nullable = false, unique = true, columnDefinition = "NVARCHAR(255)")
     private String name;
 

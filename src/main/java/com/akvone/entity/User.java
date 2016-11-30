@@ -3,10 +3,6 @@ package com.akvone.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by nikitafedorovv on 18/11/2016.
- */
-
 @Entity
 @Table(name = "USERS", schema = "musicDB", catalog = "")
 public class User implements Serializable {

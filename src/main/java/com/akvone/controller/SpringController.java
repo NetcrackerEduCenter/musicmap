@@ -1,9 +1,10 @@
 package com.akvone.controller;
 
 import com.akvone.entity.JSONUserData;
-import com.akvone.router.UserDataRouter;
+import com.akvone.service.RouterService;
 import com.akvone.service.HistoryRecordService;
-import com.akvone.service.UserService;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by Kirill on 04.11.2016.
- */
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 @Controller
 @RequestMapping("")
@@ -23,13 +23,10 @@ import org.springframework.web.bind.annotation.*;
 public class SpringController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private HistoryRecordService historyRecordService;
 
     @Autowired
-    private UserDataRouter userDataRouter;
+    private RouterService routerService;
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String sendStartPage(Model model) {
@@ -39,8 +36,13 @@ public class SpringController {
     @PostMapping(value = "/add_user")
     public ResponseEntity receiveJSONUserData(@RequestBody JSONUserData jsonUserData) {
 
-        userDataRouter.route(jsonUserData);
+//        long time = System.currentTimeMillis();
+
+        routerService.route(jsonUserData);
         System.out.println("Received from client: " + jsonUserData);
+
+//        System.out.println();
+//        System.out.println(System.currentTimeMillis() - time + " ms");
 
         return new ResponseEntity(jsonUserData, HttpStatus.OK);
     }

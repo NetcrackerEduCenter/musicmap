@@ -2,12 +2,6 @@ package com.akvone.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
 
 @Entity
 @Table(name = "STYLES", schema = "musicDB", catalog = "")

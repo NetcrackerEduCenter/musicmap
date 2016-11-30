@@ -1,42 +1,35 @@
 package com.akvone.dao.impl;
 
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
-
 import com.akvone.entity.Singer;
+import com.akvone.dao.SingerDAO;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.akvone.dao.*;
 
 @Repository
+@Transactional
 public class SingerDAOImpl implements SingerDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    @Transactional
     public void save(Singer singer) {
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(singer);
+        sessionFactory.getCurrentSession().saveOrUpdate(singer);
     }
 
     @Override
     public boolean exists(String name) {
         boolean exists = false;
         try {
-            Session session = sessionFactory.openSession();
-            Criteria singerCriteria = session.createCriteria(Singer.class);
+            Criteria singerCriteria = sessionFactory.getCurrentSession().createCriteria(Singer.class);
             singerCriteria.add(Restrictions.eq("name", name));
             exists = !singerCriteria.list().isEmpty();
-            session.close();
         } catch (HibernateException ex) {
             return false;
         }
@@ -46,17 +39,12 @@ public class SingerDAOImpl implements SingerDAO {
     @Override
     public Singer getByName(String name) {
         Singer singer;
-        Session session = null;
         try {
-            session = sessionFactory.openSession();
-            Criteria singerCriteria = session.createCriteria(Singer.class);
+            Criteria singerCriteria = sessionFactory.getCurrentSession().createCriteria(Singer.class);
             singerCriteria.add(Restrictions.eq("name", name));
             singer = (Singer) singerCriteria.list().get(0);
         } catch (HibernateException ex) {
             return null;
-        } finally {
-            if (session != null)
-                session.close();
         }
         return singer;
     }

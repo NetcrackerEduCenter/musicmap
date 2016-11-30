@@ -5,12 +5,9 @@ import com.akvone.entity.Singer;
 import com.akvone.entity.Song;
 import com.akvone.entity.Style;
 import com.akvone.service.SongService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-/**
- * Created by nikitafedorovv on 26/11/2016.
- */
 
 @Service
 public class SongServiceImpl implements SongService {

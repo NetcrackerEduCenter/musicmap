@@ -3,14 +3,12 @@ package com.akvone.service.impl;
 import com.akvone.dao.HistoryRecordDAO;
 import com.akvone.entity.*;
 import com.akvone.service.HistoryRecordService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by ToGo on 20.11.2016.
- */
 
 @Service
 public class HistoryRecordServiceImpl implements HistoryRecordService {

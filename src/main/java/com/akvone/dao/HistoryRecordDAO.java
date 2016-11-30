@@ -5,10 +5,6 @@ import com.akvone.entity.*;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
-
 public interface HistoryRecordDAO {
 
     void save(HistoryRecord historyRecord);

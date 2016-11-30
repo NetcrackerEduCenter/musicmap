@@ -3,10 +3,6 @@ package com.akvone.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by nikitafedorovv on 15/11/2016.
- */
-
 @Entity
 @Table(name = "SONGS", schema = "musicDB", catalog = "")
 public class Song implements Serializable {
@@ -71,6 +67,7 @@ public class Song implements Serializable {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (singer != null ? !singer.equals(that.singer) : that.singer != null) return false;
         if (style != null ? !style.equals(that.style) : that.style != null) return false;
+        if (vkId != null ? !vkId.equals(that.vkId) : that.vkId != null) return false;
 
         return true;
     }
@@ -80,6 +77,7 @@ public class Song implements Serializable {
         int result = singer != null ? singer.hashCode() : 0;
         result = 3517 * result + (id != null ? id.hashCode() : 0);
         result = 3517 * result + (style != null ? style.hashCode() : 0);
+        result = 3517 * result + (vkId != null ? vkId.hashCode() : 0);
         return result;
     }
 }

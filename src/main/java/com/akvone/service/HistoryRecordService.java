@@ -7,10 +7,6 @@ import com.akvone.entity.User;
 
 import java.util.List;
 
-/**
- * Created by ToGo on 20.11.2016.
- */
-
 public interface HistoryRecordService {
 
     HistoryRecord add(User user, Song song, Location location);
