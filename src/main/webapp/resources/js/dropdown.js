@@ -33,7 +33,7 @@ function setPolygonColor(indexUnselected,indexSelected) {
 
 function changeRegionInformation(previousPolygonIndex, nextPolygonIndex) {
     setRegionInformation(locations[nextPolygonIndex].name, "Загрузка...", "Загрузка...");
-    $.get("/regStat", {locationId: locations[nextPolygonIndex].id}, function (data) {
+    $.get("regStat", {locationId: locations[nextPolygonIndex].id}, function (data) {
         console.log(data);
         var object = JSON.parse(data);
         console.log(object);
