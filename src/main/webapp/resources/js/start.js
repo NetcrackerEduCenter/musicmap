@@ -85,7 +85,7 @@ function init() {
             ;
             result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
             if (result.geoObjects.accuracy < 2000) {
-                setToastText("Местоположение определено ")
+                setToastText("Определили местоположение")
                 var coords = result.geoObjects.get(0).geometry.getCoordinates();
                 userInformation.x = coords[0];
                 userInformation.y = coords[1];
@@ -107,8 +107,6 @@ function init() {
 //Вешаем listener на кнопку send
 $("#send").click(function () {
     console.log("Объект для отправки");
-    userInformation.locationID =
-        getLocationIDByCoordinates(userInformation.coords)
     console.log(userInformation);
     if (!userInformation.x) {
         setToastText("Ошибка! Не определено местоположение");
@@ -123,6 +121,8 @@ $("#send").click(function () {
         setToastText("Ошибка! Не определен район СПБ");
     }
     else {
+        userInformation.locationID =
+            getLocationIDByCoordinates(userInformation.coords);
         showRegionInformation(userInformation.coords);
         setToastText("ОК! Отправляем ваши данные");
         $.ajax({
