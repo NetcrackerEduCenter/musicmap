@@ -77,6 +77,10 @@ html, body, #main {
     transition: 0.3s
 }
 
+.drawer-content>div{
+    padding: 0px;
+}
+
 
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {

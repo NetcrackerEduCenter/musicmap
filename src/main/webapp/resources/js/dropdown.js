@@ -9,7 +9,15 @@ function closeNav() {
 function setRegionInformation(locationName, numberOfUsers, rating) {
     $("#regionName").text(locationName);
     $("#numberOfUsers").text(numberOfUsers);
-    $("#rating").text(rating);
+    if (Array.isArray(rating)){
+        $("#rating").empty();
+        for (var i = 0; i<5; i++){
+            $("#rating").append("\<div class='row'\>"+(i+1)+") "+rating[i]+"\</div\>");
+        }
+    }
+    else{
+        $("#rating").text(rating);
+    }
 }
 
 function setPolygonColor(indexUnselected,indexSelected) {
@@ -26,14 +34,17 @@ function setPolygonColor(indexUnselected,indexSelected) {
 function changeRegionInformation(previousPolygonIndex, nextPolygonIndex) {
     setRegionInformation(locations[nextPolygonIndex].name, "Загрузка...", "Загрузка...");
     $.get("/regStat", {locationId: locations[nextPolygonIndex].id}, function (data) {
+        console.log(data);
         var object = JSON.parse(data);
         console.log(object);
         setRegionInformation(locations[nextPolygonIndex].name, object.userCount, object.topStyles)
     });
+    // polygons[indexSelected].options.set('fillOpacity', 0.5);
     setPolygonColor(previousPolygonIndex, nextPolygonIndex);
 }
 
 var showRegionInformation = function (coords) {
+    // console.log(coords);
     var id = getLocationIDByCoordinates(coords);
     if (getLocationIDByCoordinates(coords) > -1) {
         locations.forEach(function (item, i) {

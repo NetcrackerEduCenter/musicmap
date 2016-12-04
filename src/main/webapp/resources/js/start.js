@@ -89,6 +89,7 @@ function init() {
                 var coords = result.geoObjects.get(0).geometry.getCoordinates();
                 userInformation.x = coords[0];
                 userInformation.y = coords[1];
+                userInformation.coords = result.geoObjects.get(0).geometry.getCoordinates();
                 myMap.geoObjects.add(result.geoObjects);
             } else {
                 userInformation.x = "low accuracy";
@@ -107,7 +108,7 @@ function init() {
 $("#send").click(function () {
     console.log("Объект для отправки");
     userInformation.locationID =
-        getLocationIDByCoordinates([userInformation.x, userInformation.y])
+        getLocationIDByCoordinates(userInformation.coords)
     console.log(userInformation);
     if (!userInformation.x) {
         setToastText("Ошибка! Не определено местоположение");
@@ -122,6 +123,7 @@ $("#send").click(function () {
         setToastText("Ошибка! Не определен район СПБ");
     }
     else {
+        showRegionInformation(userInformation.coords);
         setToastText("ОК! Отправляем ваши данные");
         $.ajax({
             url: "/add_user",
